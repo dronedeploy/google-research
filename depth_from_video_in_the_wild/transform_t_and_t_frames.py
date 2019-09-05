@@ -17,9 +17,10 @@ flags.mark_flag_as_required('input_dir')
 def process_frames(input_dir, output_dir):
     queue = deque(maxlen=3)
     ctr = 0
-    frame_idx = 0
+    frame_idx = 1
     filename = path.join(input_dir, '%06d.jpg' % frame_idx)
     while path.isfile(filename):
+        print(filename)
         frame = cv2.imread(filename)
         frame = cv2.resize(frame, (FLAGS.img_width, FLAGS.img_height))
         queue.append(frame)
@@ -35,15 +36,17 @@ def process_frames(input_dir, output_dir):
             ctr += 1
             queue.popleft()
         frame_idx += 1
+        filename = path.join(input_dir, '%06d.jpg' % frame_idx)
 
 def main(_):
     for scene in next(walk(FLAGS.input_dir))[1]:
+        print(scene)
         input_dir = path.join(FLAGS.input_dir, scene, scene)
         output_dir = path.join(FLAGS.input_dir, scene, 'ml_depth_map_estimation_input')
         try:
             makedirs(output_dir)
-        except Exception:
-            continue
+        except Exception as e:
+            pass
         process_frames(input_dir, output_dir)
 
 if __name__ == '__main__':
