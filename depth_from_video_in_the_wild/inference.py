@@ -37,11 +37,10 @@ from absl import app
 from absl import flags
 from absl import logging
 #import matplotlib.pyplot as plt
-import model
+from depth_from_video_in_the_wild import model
 import numpy as np
 import fnmatch
 import tensorflow as tf
-import nets
 import util
 
 gfile = tf.gfile
